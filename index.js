@@ -1,17 +1,19 @@
 //входные данные, полученные любым способом
-const input = [40,60,50];
-const capacity = 100;
+const input = [100,300,200];
+const capacity = 120;
 
 
 //функция пробует найти решение, в случае ошибки просит проверить данные
 //входные параметры: массив, число
 function raid(resources, capacity){
-    try {
+     try {
         //переменная summ - сумма элементов входного массива, массив result - в него будет собираться выходной массив, 
         //summParts - сумма элементов массива, разделённых на их НОД
         let summ=0;
         let summParts=0;
-        let result = []
+        let result = [];
+        let max = Math.max(...resources);
+        let maxIndex = resources.indexOf(max);
         
 
         //метод принимающий любое количество чисел и возвращающий их наибольший общий делитель
@@ -46,10 +48,15 @@ function raid(resources, capacity){
             //поэтому набег армии ничего не принесёт
             if (NOD(...resources) === 1){
 
-
-                for (let item of resources){
-                    result.push('0');
+                let taked = 0
+                for (let i=0; i<resources.length; i++){
+                    if (i===maxIndex){
+                        continue;
+                    }
+                    result.push(Math.floor(capacity / ((summ / resources[i]).toFixed(10))));
+                    taked += (capacity / ((summ / resources[i]).toFixed(10))) - (Math.floor(capacity / ((summ / resources[i]).toFixed(10))))
                 }
+                result.splice(maxIndex,0,Math.floor((capacity / ((summ / resources[maxIndex]).toFixed(10))) + taked))
                 return result;
 
             }
@@ -64,11 +71,21 @@ function raid(resources, capacity){
     
                 
                 if (summParts > capacity){
-                    for (let item of resources){
-                        result.push('0');
+
+
+                    let taked = 0
+                    for (let i=0; i<resources.length; i++){
+                    if (i===maxIndex){
+                        continue;
                     }
+                    result.push(Math.floor(capacity / ((summ / resources[i]).toFixed(10))));
+                    taked += (capacity / ((summ / resources[i]).toFixed(10))) - (Math.floor(capacity / ((summ / resources[i]).toFixed(10))))
+                    }
+                    result.splice(maxIndex,0,Math.floor((capacity / ((summ / resources[maxIndex]).toFixed(10))) + taked))
                     return result;
                 }
+
+
                 else{
                     let mulltiplicator = Math.floor(capacity / summParts);
                     for (let item of resources){
@@ -78,10 +95,10 @@ function raid(resources, capacity){
                 }
             }
         } 
-    }
-    catch {
-        return 'пожалуйста, проверьте введённые данные';
-    }
+     }
+     catch {
+         return 'пожалуйста, проверьте введённые данные';
+     }
 }
 
 console.log(raid(input,capacity));
