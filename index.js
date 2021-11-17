@@ -1,6 +1,6 @@
 //входные данные, полученные любым способом
-const input = [100,300,200];
-const capacity = 120;
+const input = [36,60,48];
+const capacity = 70;
 
 
 //функция пробует найти решение, в случае ошибки просит проверить данные
@@ -44,8 +44,8 @@ function raid(resources, capacity){
         else {
 
             //в случае если нод равен единице (и грузоподъёмность меньше суммы всех элементов), 
-            //то для входного набора чисел не найдётся пропорционального набора, сумма элементов которого меньше входного, 
-            //поэтому набег армии ничего не принесёт
+            //то программа будет пытаться найти не точную пропорцию, но максимально точную и при этом
+            //учитывать что армия должна уйти максимально загруженной
             if (NOD(...resources) === 1){
 
                 let taked = 0
@@ -75,11 +75,11 @@ function raid(resources, capacity){
 
                     let taked = 0
                     for (let i=0; i<resources.length; i++){
-                    if (i===maxIndex){
-                        continue;
-                    }
-                    result.push(Math.floor(capacity / ((summ / resources[i]).toFixed(10))));
-                    taked += (capacity / ((summ / resources[i]).toFixed(10))) - (Math.floor(capacity / ((summ / resources[i]).toFixed(10))))
+                        if (i===maxIndex){
+                            continue;
+                        }
+                        result.push(Math.floor(capacity / ((summ / resources[i]).toFixed(10))));
+                        taked += (capacity / ((summ / resources[i]).toFixed(10))) - (Math.floor(capacity / ((summ / resources[i]).toFixed(10))))
                     }
                     result.splice(maxIndex,0,Math.floor((capacity / ((summ / resources[maxIndex]).toFixed(10))) + taked))
                     return result;
